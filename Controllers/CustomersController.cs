@@ -78,4 +78,37 @@ public class CustomersController : Controller
     // 使用 PRG（Post-Redirect-Get）流程，避免使用者重新整理頁面時重複送出表單。
     return RedirectToAction("Index");
   }
+
+  [HttpGet]
+  public IActionResult Edit(int id)
+  {
+    var obj = _context.Customers.Find(id);
+
+    if (obj is null)
+    {
+      return NotFound();
+    }
+
+    return View(obj);
+  }
+
+  // POST: /Customers/Edit
+  [HttpPost]
+  public IActionResult Edit(int id, Customer obj)
+  {
+    obj.CustomerID = id;
+    _context.Customers.Update(obj);
+    _context.SaveChanges();
+
+    return RedirectToAction("Index");
+  }
+
+  public IActionResult Delete(int id)
+  {
+    var obj = _context.Customers.Find(id);
+    _context.Customers.Remove(obj!);
+    _context.SaveChanges();
+
+    return RedirectToAction("Index");
+  }
 }

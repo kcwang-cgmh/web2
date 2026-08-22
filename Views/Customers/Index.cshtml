@@ -9,6 +9,7 @@
       <th>姓名</th>
       <th>生日</th>
       <th>照片</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -18,6 +19,13 @@
         <td>@customer.Name</td>
         <td>@customer.Birthdate.ToShortDateString()</td>
         <td><img src="@customer.Photo" alt="Customer Photo" width="100" /></td>
+        <td>
+          <a asp-controller="Customers" asp-action="Edit" asp-route-id="@customer.CustomerID">編輯</a>
+          <!-- <a href="/Customers/Edit/@customer.CustomerID">編輯</a> -->
+          <a asp-controller="Customers" asp-action="Delete" asp-route-id="@customer.CustomerID"
+             onclick="return confirm('確定要刪除 @customer.Name 嗎？')">刪除</a>
+          <!-- <a href="/Customers/Delete/@customer.CustomerID">刪除</a> -->
+        </td>
       </tr>
     }
   </tbody>

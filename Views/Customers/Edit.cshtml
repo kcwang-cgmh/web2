@@ -1,0 +1,52 @@
+@model web2.Models.Customer
+
+@{
+    // 設定瀏覽器標題與共用版面配置所使用的頁面標題。
+    ViewData["Title"] = "編輯客戶";
+}
+
+@* 此檢視是 /Customers/Edit/{id} 的編輯客戶表單。 *@
+<h1>編輯客戶</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        @* asp-action 會將表單送回 CustomersController.Edit 的 POST Action；id 會由路由傳回控制器。 *@
+        <form asp-action="Edit" asp-route-id="@Model.CustomerID" method="post">
+            <input type="hidden" asp-for="CustomerID" />
+
+            @* 只顯示不屬於特定欄位的驗證錯誤；欄位錯誤會顯示在各自的 span。 *@
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @* asp-for 會依據 ViewModel 屬性產生欄位名稱、值與驗證所需的 HTML 屬性。 *@
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">姓名</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            @* type=date 提供瀏覽器日期選擇器，並與 Customer 的 Birthdate 欄位繫結。 *@
+            <div class="mb-3">
+                <label asp-for="Birthdate" class="form-label">出生日期</label>
+                <input asp-for="Birthdate" type="date" class="form-control" />
+                <span asp-validation-for="Birthdate" class="text-danger"></span>
+            </div>
+
+            @* Photo 是選填欄位。 *@
+            <div class="mb-3">
+                <label asp-for="Photo" class="form-label">照片網址</label>
+                <input asp-for="Photo" class="form-control" />
+                <span asp-validation-for="Photo" class="text-danger"></span>
+            </div>
+
+            @* 送出後由 POST Action 驗證資料，成功時更新 Customer 實體。 *@
+            <button type="submit" class="btn btn-primary">儲存修改</button>
+            <a asp-action="Index" class="btn btn-secondary">返回列表</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @* 載入共用的 jQuery Validation 腳本，提供表單送出前的用戶端提示。 *@
+    <partial name="_ValidationScriptsPartial" />
+}
