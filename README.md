@@ -66,3 +66,4 @@ Test(
 ## Prompts
 
 - `請幫我將連線字串放到設定檔`
+- `幫我加入一個路由 /Customers/Create 與檢視，用來新增 Customer 資料`
