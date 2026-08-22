@@ -2,7 +2,9 @@
 dotnet tool install --global dotnet-ef
 
 ## migration 指令
-dotnet ef migrations add initialCreate
+dotnet ef migrations add <自訂的 migration 名稱>
+
+⚠️ migration 名稱不能重複
 
 ## 建立資料庫內容
 dotnet ef database update
