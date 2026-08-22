@@ -96,6 +96,12 @@ public class CustomersController : Controller
   [HttpPost]
   public IActionResult Edit(int id, Customer obj)
   {
+    // 驗證失敗時重新顯示表單，避免把不合法的資料寫進資料庫。
+    if (!ModelState.IsValid)
+    {
+      return View(obj);
+    }
+
     obj.CustomerID = id;
     _context.Customers.Update(obj);
     _context.SaveChanges();
@@ -103,10 +109,20 @@ public class CustomersController : Controller
     return RedirectToAction("Index");
   }
 
+  // POST: /Customers/Delete
+  // 刪除會改變資料狀態，因此限定 POST；用 GET 的話瀏覽器預先抓取連結就可能誤刪。
+  [HttpPost]
+  [ValidateAntiForgeryToken]
   public IActionResult Delete(int id)
   {
     var obj = _context.Customers.Find(id);
-    _context.Customers.Remove(obj!);
+
+    if (obj is null)
+    {
+      return NotFound();
+    }
+
+    _context.Customers.Remove(obj);
     _context.SaveChanges();
 
     return RedirectToAction("Index");

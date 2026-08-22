@@ -22,9 +22,12 @@
         <td>
           <a asp-controller="Customers" asp-action="Edit" asp-route-id="@customer.CustomerID">編輯</a>
           <!-- <a href="/Customers/Edit/@customer.CustomerID">編輯</a> -->
-          <a asp-controller="Customers" asp-action="Delete" asp-route-id="@customer.CustomerID"
-             onclick="return confirm('確定要刪除 @customer.Name 嗎？')">刪除</a>
-          <!-- <a href="/Customers/Delete/@customer.CustomerID">刪除</a> -->
+          @* 刪除改用 form 送出 POST；form 標籤協助程式會自動附上 anti-forgery token。 *@
+          <form asp-controller="Customers" asp-action="Delete" asp-route-id="@customer.CustomerID"
+                method="post" style="display:inline"
+                onsubmit="return confirm('確定要刪除 @customer.Name 嗎？')">
+            <button type="submit">刪除</button>
+          </form>
         </td>
       </tr>
     }
