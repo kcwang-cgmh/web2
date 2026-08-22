@@ -76,6 +76,6 @@ public class CustomersController : Controller
     await _context.SaveChangesAsync();
 
     // 使用 PRG（Post-Redirect-Get）流程，避免使用者重新整理頁面時重複送出表單。
-    return RedirectToAction(nameof(Create));
+    return RedirectToAction("Index");
   }
 }
