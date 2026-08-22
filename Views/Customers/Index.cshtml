@@ -1,0 +1,21 @@
+@model IEnumerable<web2.Models.Customer>
+
+<table border=1>
+  <thead>
+    <tr>
+      <th>姓名</th>
+      <th>生日</th>
+      <th>照片</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var customer in Model)
+    {
+      <tr>
+        <td>@customer.Name</td>
+        <td>@customer.Birthdate.ToShortDateString()</td>
+        <td><img src="@customer.Photo" alt="Customer Photo" width="100" /></td>
+      </tr>
+    }
+  </tbody>
+</table>

@@ -24,6 +24,12 @@ public class CustomersController : Controller
     _context = context;
   }
 
+  [HttpGet]
+  public IActionResult Index()
+  {
+    return View(_context.Customers.ToList());
+  }
+
   /// <summary>
   /// 顯示新增客戶表單。
   /// </summary>
