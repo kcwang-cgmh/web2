@@ -1,6 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using web2.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+// 使用 Lambda 運算式設定搭配 SQL Server 的 DbContext
+builder.Services.AddDbContext<MyDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
