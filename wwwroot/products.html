@@ -1,0 +1,97 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <script>
+
+            function getProducts() {
+                $.getJSON("/api/products", function(data) {
+                    data.forEach(function(product) {
+                        // $("#product_row").clone().show()
+                        //     .find("#productID").text(product.productID).end()
+                        //     .find("#name").text(product.name).end()
+                        //     .find("#unitPrice").text(product.unitPrice).end()
+                        //     .appendTo("#products");
+
+                        $("#product_row").clone().show()
+                            .find("td").each(function() {
+                                var id = $(this).attr("id");
+                                $(this).text(product[id]);
+                            }).end()
+                            .appendTo("#products");
+                    });
+                });
+            }
+
+            $(function() {
+                getProducts();
+
+                $("#btnNew").click(function() {
+                    $.ajax({
+                        url: "/api/products",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({ name: "新產品", unitPrice: 100 }),
+                        success: function() {
+                            alert("新增產品成功");
+                        }
+                    })
+                });
+
+                $("#btnUpdate").click(function() {
+                    $.ajax({
+                        url: "/api/products",
+                        type: "PUT",
+                        contentType: "application/json",
+                        data: JSON.stringify({ 
+                            productID: 1, 
+                            name: "更新的產品名稱", 
+                            unitPrice: 123 
+                        }),
+                        success: function() {
+                            alert("更新產品成功");
+                        }
+                    })
+                });
+
+                $("#btnDelete").click(function() {
+                    $.ajax({
+                        url: "/api/products/1",
+                        type: "DELETE",
+                        success: function() {
+                            alert("刪除產品成功");
+                        }
+                    })
+                });
+            });
+
+        </script>
+    </head>
+    <body>
+        <h1>產品資料管理</h1>
+
+        <button id="btnNew">新增產品</button>
+        <button id="btnUpdate">更新產品</button>
+        <button id="btnDelete">刪除產品</button>
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>產品編號</th>
+                    <th>產品名稱</th>
+                    <th>產品價格</th>
+                </tr>
+            </thead>
+            <tbody id="products">
+                <tr id="product_row" style="display: none;">
+                    <td id="productID"></td>
+                    <td id="name"></td>
+                    <td id="unitPrice"></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </body>
+</html>
