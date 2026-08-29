@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using web2.Models;
 
 namespace web2.Controllers;
@@ -25,9 +26,21 @@ public class CustomersController : Controller
   }
 
   [HttpGet]
-  public IActionResult Index()
+  public IActionResult Index(string? SearchKeywords)
   {
-    return View(_context.Customers.ToList());
+    if (!string.IsNullOrEmpty(SearchKeywords))
+    {
+      var result = from c in _context.Customers
+                   where c.Name!.Contains(SearchKeywords)
+                   select c;
+
+      // 取得 result 的 SQL 查詢語法
+      var sql = result.ToQueryString();
+
+      return View(result.ToList());
+    }
+    else
+      return View(_context.Customers.ToList());
   }
 
   /// <summary>
